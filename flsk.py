@@ -1,15 +1,13 @@
+
 from flask import Flask, render_template, request
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from scipy.special import softmax
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import pandas as pd
-import base64
-
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -21,14 +19,7 @@ def index():
 
         PATH = "C:\\web drivers\\chromedriver-win32\\chromedriver.exe"
         service = Service(PATH)
-        options = Options()
-        options.add_argument('--headless')
-        options.add_argument('--disable-gpu')  # Last I checked this was necessary.
-        options.add_argument('--no-sandbox') # Bypass OS security model, VERY IMPORTANT on Render!
-        options.add_argument('--disable-dev-shm-usage') # overcome limited resource problems
-        options.add_argument('--enable-logging')  # Enable logging
-        options.add_argument('--v=1')  # Set verbosity level to 1
-        driver = webdriver.Chrome(service=service, options=options)
+        driver = webdriver.Chrome(service=service)
         driver.get("https://twitter.com/login")
 
         sleep(3)
