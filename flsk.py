@@ -1,5 +1,3 @@
-import plotly.graph_objects as go
-import plotly.io as pio
 from flask import Flask, render_template, request
 from time import sleep
 from selenium import webdriver
