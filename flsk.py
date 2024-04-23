@@ -26,6 +26,8 @@ def index():
         options.add_argument('--disable-gpu')  # Last I checked this was necessary.
         options.add_argument('--no-sandbox') # Bypass OS security model, VERY IMPORTANT on Render!
         options.add_argument('--disable-dev-shm-usage') # overcome limited resource problems
+        options.add_argument('--enable-logging')  # Enable logging
+        options.add_argument('--v=1')  # Set verbosity level to 1
         driver = webdriver.Chrome(service=service, options=options)
         driver.get("https://twitter.com/login")
 
