@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request
 from time import sleep
 from selenium import webdriver
@@ -8,6 +7,7 @@ from selenium.webdriver.chrome.service import Service
 from scipy.special import softmax
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import pandas as pd
+import os
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -16,12 +16,15 @@ def index():
         username = request.form.get('username')
         password = request.form.get('password')
         subject = request.form.get('subject')
+        
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--no-sandbox")
 
-        PATH = "C:\\web drivers\\chromedriver-win32\\chromedriver.exe"
-        service = Service(PATH)
-        driver = webdriver.Chrome(service=service)
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
         driver.get("https://twitter.com/login")
-
         sleep(3)
         username_field = driver.find_element(By.XPATH, "//input[@name='text']")
         username_field.send_keys(username)
@@ -141,4 +144,5 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
